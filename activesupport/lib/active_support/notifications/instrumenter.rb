@@ -65,6 +65,14 @@ module ActiveSupport
         @duration       = nil
       end
 
+      def start!
+        @start = now
+      end
+
+      def finish!
+        @end = now
+      end
+
       # Returns the difference in milliseconds between when the execution of the
       # event started and when it ended.
       #
@@ -88,6 +96,11 @@ module ActiveSupport
       def parent_of?(event)
         @children.include? event
       end
+
+      private
+        def now
+          Process.clock_gettime(Process::CLOCK_MONOTONIC)
+        end
     end
   end
 end
